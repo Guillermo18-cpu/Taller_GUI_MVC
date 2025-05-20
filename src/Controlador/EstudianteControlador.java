@@ -1,6 +1,5 @@
 package controlador;
 
-import Modelo.Estudiante;
 import modelo.Estudiante;
 import vista.EstudianteVista;
 
