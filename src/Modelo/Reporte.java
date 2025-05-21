@@ -12,11 +12,12 @@ public class Reporte {
         try (Statement st = Conexion.getConexion().createStatement(); ResultSet rs = st.executeQuery(sql)) {
             while (rs.next()) {
                 lista.add(new String[]{
-                    rs.getString("nom_estudiante"),
-                    rs.getString("nom_curso"),
-                    rs.getString("nom_docente"),
+                    rs.getString("nombre_estudiante"),
+                    rs.getString("nombre_curso"),
+                    rs.getString("nombre_docente_curso"),
                     rs.getString("nota_curso")
                 });
+
             }
         } catch (SQLException e) {
             System.err.println("Error al obtener reporte: " + e.getMessage());

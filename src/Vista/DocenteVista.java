@@ -14,8 +14,11 @@ public class DocenteVista extends JPanel {
     public DocenteVista() {
         setLayout(new BorderLayout());
 
-        JPanel form = new JPanel(new GridLayout(3, 2, 10, 10));
-        form.setBorder(BorderFactory.createTitledBorder("Docente"));
+        JPanel panelSuperior = new JPanel();
+        panelSuperior.setLayout(new BorderLayout());
+
+        JPanel form = new JPanel(new GridLayout(2, 2, 10, 10));
+        form.setBorder(BorderFactory.createTitledBorder("Datos del Docente"));
 
         form.add(new JLabel("Código:"));
         txtCodigo = new JTextField();
@@ -25,16 +28,23 @@ public class DocenteVista extends JPanel {
         txtNombre = new JTextField();
         form.add(txtNombre);
 
+        panelSuperior.add(form, BorderLayout.NORTH);
+
+        JPanel botones = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 5));
         btnAgregar = new JButton("Agregar");
         btnActualizar = new JButton("Actualizar");
         btnEliminar = new JButton("Eliminar");
         btnLimpiar = new JButton("Limpiar");
 
-        JPanel botones = new JPanel();
         botones.add(btnAgregar);
         botones.add(btnActualizar);
         botones.add(btnEliminar);
         botones.add(btnLimpiar);
+
+
+        panelSuperior.add(botones, BorderLayout.SOUTH);
+
+        add(panelSuperior, BorderLayout.NORTH);
 
         modeloTabla = new DefaultTableModel(new String[]{"Código", "Nombre", "Docente"}, 0) {
             @Override
@@ -44,9 +54,7 @@ public class DocenteVista extends JPanel {
         };
 
         tabla = new JTable(modeloTabla);
-
-        add(form, BorderLayout.NORTH);
-        add(botones, BorderLayout.CENTER);
-        add(new JScrollPane(tabla), BorderLayout.SOUTH);
+        JScrollPane scroll = new JScrollPane(tabla);
+        add(scroll, BorderLayout.CENTER);
     }
 }
