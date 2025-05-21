@@ -5,6 +5,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 public class VistaCurso extends JPanel {
+
     public JTextField txtCodigo, txtNombre;
     public JComboBox<String> cbDocente;
     public JButton ButtonAgregar, ButtonActualizar, ButtonEliminar, ButtonLimpiar;
@@ -18,13 +19,16 @@ public class VistaCurso extends JPanel {
         form.setBorder(BorderFactory.createTitledBorder("Curso"));
 
         form.add(new JLabel("Código:"));
-        txtCodigo = new JTextField(); form.add(txtCodigo);
+        txtCodigo = new JTextField();
+        form.add(txtCodigo);
 
         form.add(new JLabel("Nombre:"));
-        txtNombre = new JTextField(); form.add(txtNombre);
+        txtNombre = new JTextField();
+        form.add(txtNombre);
 
         form.add(new JLabel("Docente:"));
-        cbDocente = new JComboBox<>(); form.add(cbDocente);
+        cbDocente = new JComboBox<>();
+        form.add(cbDocente);
 
         ButtonAgregar = new JButton("Agregar");
         ButtonActualizar = new JButton("Actualizar");
@@ -37,7 +41,13 @@ public class VistaCurso extends JPanel {
         botones.add(ButtonEliminar);
         botones.add(ButtonLimpiar);
 
-        modeloTabla = new DefaultTableModel(new String[]{"Código", "Nombre", "Docente"}, 0);
+        modeloTabla = new DefaultTableModel(new String[]{"Código", "Nombre", "Docente"}, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
         tabla = new JTable(modeloTabla);
 
         add(form, BorderLayout.NORTH);
