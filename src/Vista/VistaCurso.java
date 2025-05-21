@@ -5,6 +5,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 public class VistaCurso extends JPanel {
+
     public JTextField txtCodigo, txtNombre;
     public JComboBox<String> cbDocente;
     public JButton ButtonAgregar, ButtonActualizar, ButtonEliminar, ButtonLimpiar;
@@ -14,11 +15,9 @@ public class VistaCurso extends JPanel {
     public VistaCurso() {
         setLayout(new BorderLayout());
 
-        // Panel principal con BoxLayout para que no haya espacio intermedio
         JPanel panelPrincipal = new JPanel();
         panelPrincipal.setLayout(new BoxLayout(panelPrincipal, BoxLayout.Y_AXIS));
 
-        // ───────── Panel formulario horizontal
         JPanel panelFormulario = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 10));
         panelFormulario.setBorder(BorderFactory.createTitledBorder("Datos del Curso"));
 
@@ -35,7 +34,6 @@ public class VistaCurso extends JPanel {
         cbDocente.setPreferredSize(new Dimension(150, 25));
         panelFormulario.add(cbDocente);
 
-        // ───────── Panel botones horizontal
         JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 5));
         ButtonAgregar = new JButton("Agregar");
         ButtonActualizar = new JButton("Actualizar");
@@ -47,14 +45,11 @@ public class VistaCurso extends JPanel {
         panelBotones.add(ButtonEliminar);
         panelBotones.add(ButtonLimpiar);
 
-        // Agregamos ambos al panel principal
         panelPrincipal.add(panelFormulario);
         panelPrincipal.add(panelBotones);
 
-        // Agregar panel principal arriba
         add(panelPrincipal, BorderLayout.NORTH);
 
-        // ───────── Tabla en la parte inferior
         modeloTabla = new DefaultTableModel(new String[]{"Código", "Nombre", "Docente"}, 0);
         tabla = new JTable(modeloTabla);
         JScrollPane scroll = new JScrollPane(tabla);

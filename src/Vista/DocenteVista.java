@@ -14,11 +14,9 @@ public class DocenteVista extends JPanel {
     public DocenteVista() {
         setLayout(new BorderLayout());
 
-        // ───────── Panel superior: formulario + botones
         JPanel panelSuperior = new JPanel();
         panelSuperior.setLayout(new BorderLayout());
 
-        // Subpanel: formulario
         JPanel form = new JPanel(new GridLayout(2, 2, 10, 10));
         form.setBorder(BorderFactory.createTitledBorder("Datos del Docente"));
 
@@ -32,7 +30,6 @@ public class DocenteVista extends JPanel {
 
         panelSuperior.add(form, BorderLayout.NORTH);
 
-        // Subpanel: botones
         JPanel botones = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 5));
         btnAgregar = new JButton("Agregar");
         btnActualizar = new JButton("Actualizar");
@@ -46,10 +43,8 @@ public class DocenteVista extends JPanel {
 
         panelSuperior.add(botones, BorderLayout.SOUTH);
 
-        // Agregar panel superior (formulario + botones)
         add(panelSuperior, BorderLayout.NORTH);
 
-        // ───────── Tabla (expandible)
         modeloTabla = new DefaultTableModel(new String[]{"Código", "Nombre"}, 0);
         tabla = new JTable(modeloTabla);
         JScrollPane scroll = new JScrollPane(tabla);
