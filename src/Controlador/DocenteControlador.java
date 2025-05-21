@@ -8,15 +8,29 @@ import java.awt.event.*;
 import java.util.List;
 
 public class DocenteControlador {
+
     private final DocenteVista vista;
 
     public DocenteControlador(DocenteVista vista) {
         this.vista = vista;
         initControladores();
         cargarTabla();
-    }
+    }  
 
     private void initControladores() {
+        vista.tabla.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int fila = vista.tabla.getSelectedRow();
+                if (fila != -1) {
+                    String codigo = vista.tabla.getValueAt(fila, 0).toString();
+                    String nombre = vista.tabla.getValueAt(fila, 1).toString();
+
+                    vista.txtCodigo.setText(codigo);
+                    vista.txtNombre.setText(nombre);
+                }
+            }
+        });
         vista.btnAgregar.addActionListener(e -> insertar());
         vista.btnActualizar.addActionListener(e -> actualizar());
         vista.btnEliminar.addActionListener(e -> eliminar());

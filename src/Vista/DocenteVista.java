@@ -41,11 +41,18 @@ public class DocenteVista extends JPanel {
         botones.add(btnEliminar);
         botones.add(btnLimpiar);
 
+
         panelSuperior.add(botones, BorderLayout.SOUTH);
 
         add(panelSuperior, BorderLayout.NORTH);
 
-        modeloTabla = new DefaultTableModel(new String[]{"Código", "Nombre"}, 0);
+        modeloTabla = new DefaultTableModel(new String[]{"Código", "Nombre", "Docente"}, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
         tabla = new JTable(modeloTabla);
         JScrollPane scroll = new JScrollPane(tabla);
         add(scroll, BorderLayout.CENTER);

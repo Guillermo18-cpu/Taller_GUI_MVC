@@ -8,6 +8,7 @@ import java.awt.event.*;
 import java.util.List;
 
 public class CursoControlador {
+
     private final VistaCurso vista;
     private List<Docente> docentes;
 
@@ -26,6 +27,21 @@ public class CursoControlador {
     }
 
     private void initControladores() {
+        vista.tabla.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int fila = vista.tabla.getSelectedRow();
+            if (fila != -1) {
+                String codigo = vista.tabla.getValueAt(fila, 0).toString();
+                String nombre = vista.tabla.getValueAt(fila, 1).toString();
+                String docente = vista.tabla.getValueAt(fila, 2).toString();
+
+                vista.txtCodigo.setText(codigo);
+                vista.txtNombre.setText(nombre);
+                vista.cbDocente.setSelectedItem(docente);
+                }
+            }
+        });
         vista.ButtonAgregar.addActionListener(e -> insertar());
         vista.ButtonActualizar.addActionListener(e -> actualizar());
         vista.ButtonEliminar.addActionListener(e -> eliminar());
@@ -86,10 +102,10 @@ public class CursoControlador {
         vista.modeloTabla.setRowCount(0);
         for (ModeloCurso c : ModeloCurso.obtenerTodos()) {
             String nombreDocente = docentes.stream()
-                .filter(d -> d.getCodigo() == c.getCodDocente())
-                .findFirst()
-                .map(Docente::getNombre)
-                .orElse("Desconocido");
+                    .filter(d -> d.getCodigo() == c.getCodDocente())
+                    .findFirst()
+                    .map(Docente::getNombre)
+                    .orElse("Desconocido");
             vista.modeloTabla.addRow(new Object[]{c.getCodCurso(), c.getNomCurso(), nombreDocente});
         }
     }

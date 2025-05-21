@@ -21,6 +21,7 @@ public class VistaCurso extends JPanel {
         JPanel panelFormulario = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 10));
         panelFormulario.setBorder(BorderFactory.createTitledBorder("Datos del Curso"));
 
+
         panelFormulario.add(new JLabel("Código:"));
         txtCodigo = new JTextField(10);
         panelFormulario.add(txtCodigo);
@@ -33,6 +34,7 @@ public class VistaCurso extends JPanel {
         cbDocente = new JComboBox<>();
         cbDocente.setPreferredSize(new Dimension(150, 25));
         panelFormulario.add(cbDocente);
+
 
         JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 5));
         ButtonAgregar = new JButton("Agregar");
@@ -50,7 +52,13 @@ public class VistaCurso extends JPanel {
 
         add(panelPrincipal, BorderLayout.NORTH);
 
-        modeloTabla = new DefaultTableModel(new String[]{"Código", "Nombre", "Docente"}, 0);
+        modeloTabla = new DefaultTableModel(new String[]{"Código", "Nombre", "Docente"}, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
         tabla = new JTable(modeloTabla);
         JScrollPane scroll = new JScrollPane(tabla);
         add(scroll, BorderLayout.CENTER);

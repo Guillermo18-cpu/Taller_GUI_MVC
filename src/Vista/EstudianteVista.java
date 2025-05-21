@@ -20,6 +20,7 @@ public class EstudianteVista extends JPanel {
         JPanel panelFormulario = new JPanel(new GridLayout(2, 2, 5, 5));
         panelFormulario.setBorder(BorderFactory.createTitledBorder("Datos del Estudiante"));
 
+
         panelFormulario.add(new JLabel("Código:"));
         txtCodigo = new JTextField();
         panelFormulario.add(txtCodigo);
@@ -27,6 +28,7 @@ public class EstudianteVista extends JPanel {
         panelFormulario.add(new JLabel("Nombre:"));
         txtNombre = new JTextField();
         panelFormulario.add(txtNombre);
+
 
         panelSuperior.add(panelFormulario, BorderLayout.NORTH);
 
@@ -45,7 +47,13 @@ public class EstudianteVista extends JPanel {
 
         add(panelSuperior, BorderLayout.NORTH);
 
-        modeloTabla = new DefaultTableModel(new String[]{"Código", "Nombre"}, 0);
+        modeloTabla = new DefaultTableModel(new String[]{"Código", "Nombre"}, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
         tabla = new JTable(modeloTabla);
         JScrollPane scroll = new JScrollPane(tabla);
         add(scroll, BorderLayout.CENTER);
