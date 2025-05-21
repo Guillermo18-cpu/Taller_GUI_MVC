@@ -14,34 +14,50 @@ public class VistaCurso extends JPanel {
     public VistaCurso() {
         setLayout(new BorderLayout());
 
-        JPanel form = new JPanel(new GridLayout(4, 2, 10, 10));
-        form.setBorder(BorderFactory.createTitledBorder("Curso"));
+        // Panel principal con BoxLayout para que no haya espacio intermedio
+        JPanel panelPrincipal = new JPanel();
+        panelPrincipal.setLayout(new BoxLayout(panelPrincipal, BoxLayout.Y_AXIS));
 
-        form.add(new JLabel("Código:"));
-        txtCodigo = new JTextField(); form.add(txtCodigo);
+        // ───────── Panel formulario horizontal
+        JPanel panelFormulario = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 10));
+        panelFormulario.setBorder(BorderFactory.createTitledBorder("Datos del Curso"));
 
-        form.add(new JLabel("Nombre:"));
-        txtNombre = new JTextField(); form.add(txtNombre);
+        panelFormulario.add(new JLabel("Código:"));
+        txtCodigo = new JTextField(10);
+        panelFormulario.add(txtCodigo);
 
-        form.add(new JLabel("Docente:"));
-        cbDocente = new JComboBox<>(); form.add(cbDocente);
+        panelFormulario.add(new JLabel("Nombre:"));
+        txtNombre = new JTextField(15);
+        panelFormulario.add(txtNombre);
 
+        panelFormulario.add(new JLabel("Docente:"));
+        cbDocente = new JComboBox<>();
+        cbDocente.setPreferredSize(new Dimension(150, 25));
+        panelFormulario.add(cbDocente);
+
+        // ───────── Panel botones horizontal
+        JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 5));
         ButtonAgregar = new JButton("Agregar");
         ButtonActualizar = new JButton("Actualizar");
         ButtonEliminar = new JButton("Eliminar");
         ButtonLimpiar = new JButton("Limpiar");
 
-        JPanel botones = new JPanel();
-        botones.add(ButtonAgregar);
-        botones.add(ButtonActualizar);
-        botones.add(ButtonEliminar);
-        botones.add(ButtonLimpiar);
+        panelBotones.add(ButtonAgregar);
+        panelBotones.add(ButtonActualizar);
+        panelBotones.add(ButtonEliminar);
+        panelBotones.add(ButtonLimpiar);
 
+        // Agregamos ambos al panel principal
+        panelPrincipal.add(panelFormulario);
+        panelPrincipal.add(panelBotones);
+
+        // Agregar panel principal arriba
+        add(panelPrincipal, BorderLayout.NORTH);
+
+        // ───────── Tabla en la parte inferior
         modeloTabla = new DefaultTableModel(new String[]{"Código", "Nombre", "Docente"}, 0);
         tabla = new JTable(modeloTabla);
-
-        add(form, BorderLayout.NORTH);
-        add(botones, BorderLayout.CENTER);
-        add(new JScrollPane(tabla), BorderLayout.SOUTH);
+        JScrollPane scroll = new JScrollPane(tabla);
+        add(scroll, BorderLayout.CENTER);
     }
 }

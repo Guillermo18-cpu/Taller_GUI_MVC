@@ -5,6 +5,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 public class EstudianteVista extends JPanel {
+
     public JTextField txtCodigo, txtNombre;
     public JButton btnAgregar, btnActualizar, btnEliminar, btnLimpiar;
     public JTable tabla;
@@ -13,33 +14,46 @@ public class EstudianteVista extends JPanel {
     public EstudianteVista() {
         setLayout(new BorderLayout());
 
-        // Formulario
-        JPanel form = new JPanel(new GridLayout(3, 2, 10, 10));
-        form.setBorder(BorderFactory.createTitledBorder("Estudiante"));
+        // ───────── Panel superior (formulario + botones)
+        JPanel panelSuperior = new JPanel();
+        panelSuperior.setLayout(new BorderLayout());
 
-        form.add(new JLabel("Código:"));
-        txtCodigo = new JTextField(); form.add(txtCodigo);
+        // Subpanel de formulario (GridLayout)
+        JPanel panelFormulario = new JPanel(new GridLayout(2, 2, 5, 5));
+        panelFormulario.setBorder(BorderFactory.createTitledBorder("Datos del Estudiante"));
 
-        form.add(new JLabel("Nombre:"));
-        txtNombre = new JTextField(); form.add(txtNombre);
+        panelFormulario.add(new JLabel("Código:"));
+        txtCodigo = new JTextField();
+        panelFormulario.add(txtCodigo);
 
+        panelFormulario.add(new JLabel("Nombre:"));
+        txtNombre = new JTextField();
+        panelFormulario.add(txtNombre);
+
+        panelSuperior.add(panelFormulario, BorderLayout.NORTH);
+
+        // Subpanel de botones
+        JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 5));
         btnAgregar = new JButton("Agregar");
         btnActualizar = new JButton("Actualizar");
         btnEliminar = new JButton("Eliminar");
         btnLimpiar = new JButton("Limpiar");
 
-        JPanel botones = new JPanel();
-        botones.add(btnAgregar);
-        botones.add(btnActualizar);
-        botones.add(btnEliminar);
-        botones.add(btnLimpiar);
+        panelBotones.add(btnAgregar);
+        panelBotones.add(btnActualizar);
+        panelBotones.add(btnEliminar);
+        panelBotones.add(btnLimpiar);
 
+        panelSuperior.add(panelBotones, BorderLayout.SOUTH);
+
+        // Agregar panel superior al top
+        add(panelSuperior, BorderLayout.NORTH);
+
+        // ───────── Panel de tabla expandible
         modeloTabla = new DefaultTableModel(new String[]{"Código", "Nombre"}, 0);
         tabla = new JTable(modeloTabla);
         JScrollPane scroll = new JScrollPane(tabla);
-
-        add(form, BorderLayout.NORTH);
-        add(botones, BorderLayout.CENTER);
-        add(scroll, BorderLayout.SOUTH);
+        add(scroll, BorderLayout.CENTER);
     }
+
 }
