@@ -5,6 +5,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 public class DocenteVista extends JPanel {
+
     public JTextField txtCodigo, txtNombre;
     public JButton btnAgregar, btnActualizar, btnEliminar, btnLimpiar;
     public JTable tabla;
@@ -17,10 +18,12 @@ public class DocenteVista extends JPanel {
         form.setBorder(BorderFactory.createTitledBorder("Docente"));
 
         form.add(new JLabel("Código:"));
-        txtCodigo = new JTextField(); form.add(txtCodigo);
+        txtCodigo = new JTextField();
+        form.add(txtCodigo);
 
         form.add(new JLabel("Nombre:"));
-        txtNombre = new JTextField(); form.add(txtNombre);
+        txtNombre = new JTextField();
+        form.add(txtNombre);
 
         btnAgregar = new JButton("Agregar");
         btnActualizar = new JButton("Actualizar");
@@ -33,7 +36,13 @@ public class DocenteVista extends JPanel {
         botones.add(btnEliminar);
         botones.add(btnLimpiar);
 
-        modeloTabla = new DefaultTableModel(new String[]{"Código", "Nombre"}, 0);
+        modeloTabla = new DefaultTableModel(new String[]{"Código", "Nombre", "Docente"}, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
         tabla = new JTable(modeloTabla);
 
         add(form, BorderLayout.NORTH);

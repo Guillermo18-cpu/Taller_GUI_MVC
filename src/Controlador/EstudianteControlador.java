@@ -1,3 +1,4 @@
+
 package controlador;
 
 import modelo.Estudiante;
@@ -6,6 +7,7 @@ import vista.EstudianteVista;
 import javax.swing.*;
 import java.awt.event.*;
 import java.util.List;
+
 
 public class EstudianteControlador {
     private final EstudianteVista vista;
@@ -17,6 +19,20 @@ public class EstudianteControlador {
     }
 
     private void initControladores() {
+        vista.tabla.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int fila = vista.tabla.getSelectedRow();
+                if (fila != -1) {
+                    String codigo = vista.tabla.getValueAt(fila, 0).toString();
+                    String nombre = vista.tabla.getValueAt(fila, 1).toString();
+
+                    vista.txtCodigo.setText(codigo);
+                    vista.txtNombre.setText(nombre);
+                }
+            }
+        });
+
         vista.btnAgregar.addActionListener(e -> insertar());
         vista.btnActualizar.addActionListener(e -> actualizar());
         vista.btnEliminar.addActionListener(e -> eliminar());

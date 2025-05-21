@@ -7,6 +7,7 @@ import java.awt.event.*;
 import java.util.List;
 
 public class MatriculaControlador {
+
     private final VistaMatricula vista;
     private List<Estudiante> estudiantes;
     private List<ModeloCurso> cursos;
@@ -22,8 +23,12 @@ public class MatriculaControlador {
         estudiantes = Estudiante.obtenerTodos();
         cursos = ModeloCurso.obtenerTodos();
 
-        for (Estudiante e : estudiantes) vista.cbEstudiante.addItem(e.getNombre());
-        for (ModeloCurso c : cursos) vista.cbCurso.addItem(c.getNomCurso());
+        for (Estudiante e : estudiantes) {
+            vista.cbEstudiante.addItem(e.getNombre());
+        }
+        for (ModeloCurso c : cursos) {
+            vista.cbCurso.addItem(c.getNomCurso());
+        }
     }
 
     private void cargarTabla() {
@@ -38,6 +43,21 @@ public class MatriculaControlador {
     }
 
     private void initEventos() {
+        vista.tabla.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int fila = vista.tabla.getSelectedRow();
+                if (fila != -1) {
+                    String estudiante = vista.tabla.getValueAt(fila, 0).toString();
+                    String curso = vista.tabla.getValueAt(fila, 1).toString();
+                    String nota = vista.tabla.getValueAt(fila, 2).toString();
+
+                    vista.cbEstudiante.setSelectedItem(estudiante);
+                    vista.cbCurso.setSelectedItem(curso);
+                    vista.txtNota.setText(nota);
+                }
+            }
+        });
         vista.buttonRegistrar.addActionListener(e -> {
             try {
                 int codEst = estudiantes.get(vista.cbEstudiante.getSelectedIndex()).getCodigo();
