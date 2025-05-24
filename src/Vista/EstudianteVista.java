@@ -47,7 +47,7 @@ public class EstudianteVista extends JPanel {
 
         add(panelSuperior, BorderLayout.NORTH);
 
-        modeloTabla = new DefaultTableModel(new String[]{"Código", "Nombre"}, 0) {
+        modeloTabla = new DefaultTableModel(new String[]{"Código", "Nombres de estudiantes"}, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;

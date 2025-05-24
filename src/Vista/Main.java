@@ -4,6 +4,7 @@ import java.awt.*;
 import vista.*;
 
 import controlador.*;
+import modelo.Conexion;
 
 public class Main extends JFrame {
 
@@ -75,9 +76,9 @@ public class Main extends JFrame {
         repaint();
     }
     
-    
 
     public static void main(String[] args) {
+        Conexion.getConexion();
         SwingUtilities.invokeLater(() -> {
             new Main().setVisible(true);
         });
