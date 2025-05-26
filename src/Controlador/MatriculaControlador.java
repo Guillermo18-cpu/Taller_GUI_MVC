@@ -66,7 +66,7 @@ public class MatriculaControlador {
                         || vista.txtNota.getText().trim().isEmpty()) {
                     JOptionPane.showMessageDialog(
                             vista,
-                            "Por favor, seleccione un estudiante, un curso y capture la nota.",
+                            "Por favor, seleccione un estudiante, un curso y registre la nota.",
                             "Campo Incompleto",
                             JOptionPane.WARNING_MESSAGE
                     );
@@ -110,6 +110,59 @@ public class MatriculaControlador {
                         JOptionPane.ERROR_MESSAGE
                 );
 
+            }
+        });
+
+        vista.buttonActualizar.addActionListener(e -> {
+            try {
+                if (vista.cbEstudiante.getSelectedIndex() == -1
+                        || vista.cbCurso.getSelectedIndex() == -1
+                        || vista.txtNota.getText().trim().isEmpty()) {
+                    JOptionPane.showMessageDialog(
+                            vista,
+                            "Por favor, seleccione un estudiante, un curso y la nota a actualizar.",
+                            "Campo Incompleto",
+                            JOptionPane.WARNING_MESSAGE
+                    );
+                    return;
+                }
+
+                int codEst = estudiantes.get(vista.cbEstudiante.getSelectedIndex()).getCodigo();
+                int codCurso = cursos.get(vista.cbCurso.getSelectedIndex()).getCodCurso();
+                double nota = Double.parseDouble(vista.txtNota.getText());
+
+                ModeloMatricula m = new ModeloMatricula(codEst, codCurso, nota);
+                if (m.actualizar()) {
+                    JOptionPane.showMessageDialog(
+                            vista,
+                            "Nota actualizada exitosamente.",
+                            "Actualización Exitosa",
+                            JOptionPane.INFORMATION_MESSAGE
+                    );
+                    cargarTabla();
+                    vista.txtNota.setText("");
+                } else {
+                    JOptionPane.showMessageDialog(
+                            vista,
+                            "No se encontró una matrícula para actualizar.",
+                            "Error de Actualización",
+                            JOptionPane.ERROR_MESSAGE
+                    );
+                }
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(
+                        vista,
+                        "La nota debe ser un número válido.",
+                        "Error de Formato",
+                        JOptionPane.ERROR_MESSAGE
+                );
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(
+                        vista,
+                        "Ocurrió un error al actualizar la nota: " + ex.getMessage(),
+                        "Error Inesperado",
+                        JOptionPane.ERROR_MESSAGE
+                );
             }
         });
     }
