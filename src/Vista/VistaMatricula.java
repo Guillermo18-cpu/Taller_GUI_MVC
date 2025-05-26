@@ -11,8 +11,10 @@ public class VistaMatricula extends JPanel {
     public JButton buttonRegistrar;
     public JTable tabla;
     public DefaultTableModel modeloTabla;
+    public JButton buttonActualizar;
 
     public VistaMatricula() {
+
         setLayout(new BorderLayout());
 
         JPanel form = new JPanel(new GridLayout(4, 2, 10, 10));
@@ -30,9 +32,17 @@ public class VistaMatricula extends JPanel {
         txtNota = new JTextField();
         form.add(txtNota);
 
-        form.add(new JLabel(""));
+        // Panel para los botones
+        JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
         buttonRegistrar = new JButton("Registrar");
-        form.add(buttonRegistrar);
+        buttonRegistrar.setPreferredSize(new Dimension(100, 25));
+        buttonActualizar = new JButton("Actualizar Nota");
+        buttonActualizar.setPreferredSize(new Dimension(140, 25));
+        panelBotones.add(buttonRegistrar);
+        panelBotones.add(buttonActualizar);
+
+        form.add(new JLabel(""));
+        form.add(panelBotones);
 
         modeloTabla = new DefaultTableModel(new String[]{"Estudiante", "Curso", "Nota"}, 0) {
             @Override
