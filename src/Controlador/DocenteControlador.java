@@ -6,6 +6,7 @@ import vista.DocenteVista;
 import javax.swing.*;
 import java.awt.event.*;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 public class DocenteControlador {
 
@@ -53,21 +54,105 @@ public class DocenteControlador {
         }
     }
 
-    private void actualizar() {
-        Docente d = new Docente(Integer.parseInt(vista.txtCodigo.getText()), vista.txtNombre.getText());
-        if (d.actualizar()) {
-            cargarTabla();
-            limpiar();
+   private void actualizar() {
+        try {
+            if (vista.txtCodigo.getText().trim().isEmpty() ||
+                vista.txtNombre.getText().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(
+                    vista,
+                    "Por favor, el nombre del docente a actualizar.",
+                    "Campo Incompleto",
+                    JOptionPane.WARNING_MESSAGE
+                );
+                return;
+            }
+
+            int codigo = Integer.parseInt(vista.txtCodigo.getText());
+            String nombre = vista.txtNombre.getText();
+
+            Docente d = new Docente(codigo, nombre);
+            if (d.actualizar()) {
+                JOptionPane.showMessageDialog(
+                    vista,
+                    "Docente actualizado exitosamente.",
+                    "Actualización Exitosa",
+                    JOptionPane.INFORMATION_MESSAGE
+                );
+                cargarTabla();
+                limpiar();
+            } else {
+                JOptionPane.showMessageDialog(
+                    vista,
+                    "No se pudo actualizar el docente.",
+                    "Error de Actualización",
+                    JOptionPane.ERROR_MESSAGE
+                );
+            }
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(
+                vista,
+                "El código del docente debe ser un número válido.",
+                "Error de Formato",
+                JOptionPane.ERROR_MESSAGE
+            );
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                vista,
+                "Ocurrió un error inesperado al actualizar: " + ex.getMessage(),
+                "Error Inesperado",
+                JOptionPane.ERROR_MESSAGE
+            );
         }
     }
 
     private void eliminar() {
-        Docente d = new Docente(Integer.parseInt(vista.txtCodigo.getText()), "");
-        if (d.eliminar()) {
-            cargarTabla();
-            limpiar();
+        try {
+            if (vista.txtCodigo.getText().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(
+                    vista,
+                    "Por favor, seleccione el docente a eliminar.",
+                    "Campo Vacío",
+                    JOptionPane.WARNING_MESSAGE
+                );
+                return;
+            }
+
+            int cod = Integer.parseInt(vista.txtCodigo.getText());
+            Docente d = new Docente(cod, "");
+            if (d.eliminar()) {
+                JOptionPane.showMessageDialog(
+                    vista,
+                    "Docente eliminado exitosamente.",
+                    "Eliminación Exitosa",
+                    JOptionPane.INFORMATION_MESSAGE
+                );
+                cargarTabla();
+                limpiar();
+            } else {
+                JOptionPane.showMessageDialog(
+                    vista,
+                    "No se pudo eliminar el docente. Es posible que no exista o esté asociado a otros registros.",
+                    "Error de Eliminación",
+                    JOptionPane.ERROR_MESSAGE
+                );
+            }
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(
+                vista,
+                "El código del docente debe ser un número válido.",
+                "Error de Formato",
+                JOptionPane.ERROR_MESSAGE
+            );
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                vista,
+                "Ocurrió un error inesperado al intentar eliminar: " + ex.getMessage(),
+                "Error Inesperado",
+                JOptionPane.ERROR_MESSAGE
+            );
         }
     }
+
 
     private void limpiar() {
         vista.txtCodigo.setText("");

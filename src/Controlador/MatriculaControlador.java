@@ -5,6 +5,7 @@ import vista.VistaMatricula;
 
 import java.awt.event.*;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 public class MatriculaControlador {
 
@@ -60,17 +61,55 @@ public class MatriculaControlador {
         });
         vista.buttonRegistrar.addActionListener(e -> {
             try {
+                if (vista.cbEstudiante.getSelectedIndex() == -1
+                        || vista.cbCurso.getSelectedIndex() == -1
+                        || vista.txtNota.getText().trim().isEmpty()) {
+                    JOptionPane.showMessageDialog(
+                            vista,
+                            "Por favor, seleccione un estudiante, un curso y capture la nota.",
+                            "Campo Incompleto",
+                            JOptionPane.WARNING_MESSAGE
+                    );
+                    return;
+                }
+
                 int codEst = estudiantes.get(vista.cbEstudiante.getSelectedIndex()).getCodigo();
                 int codCurso = cursos.get(vista.cbCurso.getSelectedIndex()).getCodCurso();
                 double nota = Double.parseDouble(vista.txtNota.getText());
 
                 ModeloMatricula m = new ModeloMatricula(codEst, codCurso, nota);
                 if (m.insertar()) {
+                    JOptionPane.showMessageDialog(
+                            vista,
+                            "Matrícula registrada exitosamente.",
+                            "Registro Exitoso",
+                            JOptionPane.INFORMATION_MESSAGE
+                    );
                     cargarTabla();
                     vista.txtNota.setText("");
+                } else {
+                    JOptionPane.showMessageDialog(
+                            vista,
+                            "No se pudo registrar la matrícula.",
+                            "Error de Registro",
+                            JOptionPane.ERROR_MESSAGE
+                    );
                 }
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(
+                        vista,
+                        "La nota debe ser un número válido.",
+                        "Error de Formato",
+                        JOptionPane.ERROR_MESSAGE
+                );
             } catch (Exception ex) {
-                System.err.println("Error al registrar: " + ex.getMessage());
+                JOptionPane.showMessageDialog(
+                        vista,
+                        "Ocurrió un error al registrar la matrícula: " + ex.getMessage(),
+                        "Error Inesperado",
+                        JOptionPane.ERROR_MESSAGE
+                );
+
             }
         });
     }

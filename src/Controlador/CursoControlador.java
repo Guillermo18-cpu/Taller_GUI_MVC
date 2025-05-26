@@ -6,6 +6,7 @@ import vista.VistaCurso;
 
 import java.awt.event.*;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 public class CursoControlador {
 
@@ -31,14 +32,14 @@ public class CursoControlador {
             @Override
             public void mouseClicked(MouseEvent e) {
                 int fila = vista.tabla.getSelectedRow();
-            if (fila != -1) {
-                String codigo = vista.tabla.getValueAt(fila, 0).toString();
-                String nombre = vista.tabla.getValueAt(fila, 1).toString();
-                String docente = vista.tabla.getValueAt(fila, 2).toString();
+                if (fila != -1) {
+                    String codigo = vista.tabla.getValueAt(fila, 0).toString();
+                    String nombre = vista.tabla.getValueAt(fila, 1).toString();
+                    String docente = vista.tabla.getValueAt(fila, 2).toString();
 
-                vista.txtCodigo.setText(codigo);
-                vista.txtNombre.setText(nombre);
-                vista.cbDocente.setSelectedItem(docente);
+                    vista.txtCodigo.setText(codigo);
+                    vista.txtNombre.setText(nombre);
+                    vista.cbDocente.setSelectedItem(docente);
                 }
             }
         });
@@ -70,24 +71,111 @@ public class CursoControlador {
     }
 
     private void actualizar() {
-        int cod = Integer.parseInt(vista.txtCodigo.getText());
-        String nombre = vista.txtNombre.getText();
-        int codDoc = docentes.get(vista.cbDocente.getSelectedIndex()).getCodigo();
+        try {
+            if (vista.txtCodigo.getText().trim().isEmpty()
+                    || vista.txtNombre.getText().trim().isEmpty()
+                    || vista.cbDocente.getSelectedIndex() == -1) {
+                JOptionPane.showMessageDialog(
+                        vista,
+                        "Por favor, ingrese el código, nombre y seleccione un docente.",
+                        "Campo Incompleto",
+                        JOptionPane.WARNING_MESSAGE
+                );
+                return;
+            }
 
-        ModeloCurso c = new ModeloCurso(cod, nombre, codDoc);
-        if (c.actualizar()) {
-            cargarTabla();
-            limpiar();
+            int cod = Integer.parseInt(vista.txtCodigo.getText());
+            String nombre = vista.txtNombre.getText();
+            int codDoc = docentes.get(vista.cbDocente.getSelectedIndex()).getCodigo();
+
+            ModeloCurso c = new ModeloCurso(cod, nombre, codDoc);
+            if (c.actualizar()) {
+                JOptionPane.showMessageDialog(
+                        vista,
+                        "Curso actualizado exitosamente.",
+                        "Actualización Exitosa",
+                        JOptionPane.INFORMATION_MESSAGE
+                );
+                cargarTabla();
+                limpiar();
+            } else {
+                JOptionPane.showMessageDialog(
+                        vista,
+                        "No se pudo actualizar el curso.",
+                        "Error de Actualización",
+                        JOptionPane.ERROR_MESSAGE
+                );
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(
+                    vista,
+                    "El código del curso debe ser un número válido.",
+                    "Error de Formato",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        } catch (IndexOutOfBoundsException e) {
+            JOptionPane.showMessageDialog(
+                    vista,
+                    "Por favor, seleccione un docente.",
+                    "Error de Selección",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(
+                    vista,
+                    "Ocurrió un error inesperado: " + e.getMessage(),
+                    "Error Inesperado",
+                    JOptionPane.ERROR_MESSAGE
+            );
         }
     }
 
     private void eliminar() {
-        int cod = Integer.parseInt(vista.txtCodigo.getText());
-        ModeloCurso c = new ModeloCurso();
-        c.setCodCurso(cod);
-        if (c.eliminar()) {
-            cargarTabla();
-            limpiar();
+        try {
+            if (vista.txtCodigo.getText().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(
+                        vista,
+                        "Por favor, ingrese el código del curso a eliminar.",
+                        "Campo Vacío",
+                        JOptionPane.WARNING_MESSAGE
+                );
+                return;
+            }
+
+            int cod = Integer.parseInt(vista.txtCodigo.getText());
+            ModeloCurso c = new ModeloCurso();
+            c.setCodCurso(cod);
+            if (c.eliminar()) {
+                JOptionPane.showMessageDialog(
+                        vista,
+                        "Curso eliminado exitosamente.",
+                        "Eliminación Exitosa",
+                        JOptionPane.INFORMATION_MESSAGE
+                );
+                cargarTabla();
+                limpiar();
+            } else {
+                JOptionPane.showMessageDialog(
+                        vista,
+                        "No se pudo eliminar el curso. Es posible que no exista o esté relacionado con otros datos.",
+                        "Error de Eliminación",
+                        JOptionPane.ERROR_MESSAGE
+                );
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(
+                    vista,
+                    "El código del curso debe ser un número válido.",
+                    "Error de Formato",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(
+                    vista,
+                    "Ocurrió un error inesperado al intentar eliminar: " + e.getMessage(),
+                    "Error Inesperado",
+                    JOptionPane.ERROR_MESSAGE
+            );
         }
     }
 
